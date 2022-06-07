@@ -27,7 +27,7 @@ float missileSpeed; // missile speed
 
 void setup() { // basic setting
   size(800,800); // game window size
-  for (int i=0; i<maxNumBall; i++) { // generate enemy class up to maximum number of enemies
+  for (int i=0; i<numBall; i++) { // generate enemy class up to maximum number of enemies
      ball[i] = new Ball(); 
   }
   for (int i=0;i<50;i++) {
@@ -61,8 +61,10 @@ void draw() { // mainloop of the game
   }
   stroke(255,255,255); // set line to white color
   line(0, height-laserLimit, width, height-laserLimit); // draw bottom line that separates enemy area and player area
-  displayUI();
   difficulty(); // set difficulty as game progresses
+ if (hp <= 0) 
+  gameover();
+ displayUI();
 }
 
 
@@ -198,13 +200,11 @@ class Ball { // enemy class
     posY = 0;
   }
 
-  void damage() { // define game over
+  void damage() { // define player get damaged
      if (posY > height-laserLimit) { // if ball's Y-position reaches
        --hp;
        reposition();
        background(200,0,0);
-       if (hp <= 0) 
-          gameover();
      }
   } 
 }
@@ -319,6 +319,7 @@ void difficulty() {
    getScore += 50;
   }
   if (tick % 600 == 0 && numBall < maxNumBall) {
+   ball[numBall] = new Ball(); 
    numBall++;
   }
 }
