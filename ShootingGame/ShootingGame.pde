@@ -135,8 +135,10 @@ void restart() { // game restart
   explosionLine = -100; // set explosion line to -100
   shoot = false;
   missileLaunched = false; // set missilelaunch status to false
-  for (int i =0 ; i<numBall; i++) // enemies reposition
-  ball[i].reposition();
+  for (int i =0 ; i<numBall; i++) { // enemies reposition
+    ball[i].reposition();
+    ball[i].itemDrop = false;
+  }
   bgm.play(); // background music restart
   loop(); // resume mainloop of the game 
 }
@@ -378,9 +380,10 @@ class backgroundEffect { // background space dust effect
     fill(100,100,100);
     ellipse(posX, posY, size, size);
     posY+=5;
-    if (posY > height)
+    if (posY > height) {
       posX = int(random(width));
       posY = 0-int(random(height));
+    }
   }
   
 }
@@ -388,7 +391,7 @@ class backgroundEffect { // background space dust effect
 
 
 
-void difficulty() { // raises difficulty as game progress
+void difficulty() { // raises difficulty as game progresses
   tick++;
   if ((tick+300) % 600 == 0 && ballSpeed < 10) {
    ballSpeed += 1; 
